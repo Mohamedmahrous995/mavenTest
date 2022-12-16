@@ -1,23 +1,27 @@
 pipeline {
   agent any
+  tools { 
+        maven 'maven-3.6.8' 
+        jdk 'Openjdk-1.7.0' 
+    }
   stages {
-    stage('Initialize') {
-      steps {
-        sh '''
+        stage ('Initialize') {
+            steps {
+                sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
-                '''
-      }
-    }
-
+                ''' 
+            }
+        }
     stage('SCM Checkout') {
       steps {
         echo '>>> Start getting SCM code'
         git 'https://github.com/Mohamedmahrous995/mavenTest.git'
         echo 'getting SCM success'
-      }
+       }
     }
 
+     
     stage('build JAR File') {
       steps {
         echo 'start building maven App'
@@ -70,9 +74,5 @@ pipeline {
       }
     }
 
-  }
-  tools {
-    maven 'maven-3.6.8'
-    jdk 'Openjdk-1.7.0'
   }
 }
