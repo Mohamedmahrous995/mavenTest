@@ -74,8 +74,5 @@ pipeline {
     }
 
   }
-  tools {
-    maven 'maven-3.6.8'
-    jdk 'Openjdk-1.7.0'
-  }
+
 }
