@@ -1,27 +1,37 @@
 pipeline {
   agent any
+  tools { 
+        maven 'maven-3.6.8' 
+    }
+  environment {
+    MyDockerAccountName = 'mohamedmahrous'
+    DOCKERHUB_CREDENTIALS=credentials('docker-cred')
+    MyDockerReposioryName = 'demo'
+    MyTagName = 'Jenkins-pipeline-Demo'
+  }
   stages {
-    stage('Initialize') {
-      steps {
-        sh '''
+        stage ('Initialize') {
+            steps {
+                sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
-                '''
-      }
-    }
-
+                ''' 
+            }
+        }
     stage('SCM Checkout') {
       steps {
         echo '>>> Start getting SCM code'
         git 'https://github.com/Mohamedmahrous995/mavenTest.git'
         echo 'getting SCM success'
-      }
+       }
     }
 
+     
     stage('build JAR File') {
       steps {
         echo 'start building maven App'
         sh 'mvn -Dmaven.test.skip=TRUE install'
+        echo '>>start running jar file'
         echo 'build complete'
       }
     }
@@ -43,9 +53,9 @@ pipeline {
     stage('upload docker image') {
       steps {
         echo '>>> Login to Docker hub'
-        withCredentials(bindings: [string(credentialsId: 'DockHubSecret', variable: 'DockerHubIDSecret')]) {
-          sh "docker login -u $MyDockerAccountName -p $DockerHubIDSecret"
-        }
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $MyDockerAccountName --password-stdin'
+        echo "login success"
+    
 
         echo '>>> Start uploading the docker image'
         sh "docker push $MyDockerAccountName/$MyDockerReposioryName:$MyTagName$BUILD_NUMBER"
@@ -69,7 +79,5 @@ pipeline {
     }
 
   }
-  tools {
-    maven 'maven-3.6.8'
-  }
 }
+
