@@ -22,8 +22,6 @@ pipeline {
       steps {
         echo 'start building maven App'
         sh 'mvn -Dmaven.test.skip=TRUE install'
-        echo '>>start running jar file'
-        sh "java -jar $WORKSPACE'/target/demo1-0.0.1-SNAPSHOT.jar"
         echo 'build complete'
       }
     }
