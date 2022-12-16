@@ -1,11 +1,20 @@
 pipeline {
   agent any
-      agent {
-        docker {
-            image 'maven:3.8.1-adoptopenjdk-11' 
-            args '-v /root/.m2:/root/.m2' 
-        }
+      agent any
+  tools { 
+        maven 'Maven 3.3.9' 
+        jdk 'jdk8' 
+    }
   stages {
+        stages {
+        stage ('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                ''' 
+            }
+        }
     stage('SCM Checkout') {
       steps {
         echo '>>> Start getting SCM code'
@@ -13,6 +22,7 @@ pipeline {
         echo 'getting SCM success'
        }
     }
+
      
     stage('build JAR File') {
       steps {
