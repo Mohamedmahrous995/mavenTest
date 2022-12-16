@@ -8,7 +8,16 @@ pipeline {
         echo 'getting SCM success'
       }
     }
-
+    stage ('global variables'){
+      steps {
+         Build Number : $BUILD_NUMBER
+         Build URL is : $BUILD_URL
+         Build Tag : $BUILD_TAG
+         Node Name : $NODE_NAME
+         Executor Number : $EXECUTOR_NUMBER
+         Workspace : $WORKSPACE
+      }
+    } 
     stage('build JAR File') {
       steps {
         echo 'start building maven App'
