@@ -27,7 +27,7 @@ pipeline {
             echo '>>> End clearing old docker images'
             echo '>>> Start building App docker image'
             sh "docker build -t $MyDockerAccountName/$MyDockerReposioryName:$MyTagName$BUILD_NUMBER --pull=true $WORKSPACE"
-            echo '>>> End building App docker image
+            echo '>>> End building App docker image'
             }
         }
         stage ('upload docker image') {
@@ -37,7 +37,7 @@ pipeline {
             sh "docker login -u $MyDockerAccountName -p $DockerHubIDSecret"}
             echo '>>> Start uploading the docker image'
             sh "docker push $MyDockerAccountName/$MyDockerReposioryName:$MyTagName$BUILD_NUMBER"
-            echo '>>> End uploading the docker image
+            echo '>>> End uploading the docker image'
             }
         }
         stage ('deploy'){
