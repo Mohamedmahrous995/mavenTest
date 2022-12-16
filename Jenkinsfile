@@ -1,8 +1,5 @@
 pipeline {
   agent any
-    tools {
-    maven 'maven-3.6.8'
-  }
   stages {
     stage('Initialize') {
       steps {
@@ -72,10 +69,7 @@ pipeline {
     }
 
   }
-
-}
-environment {
-    MyDockerAccountName = 'mohamedmahrous'
-    MyDockerReposioryName = 'demo'
-    MyTagName = 'Jenkins-pipeline-Demo'
+  tools {
+    maven 'maven-3.6.8'
+  }
 }
